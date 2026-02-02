@@ -13,10 +13,7 @@ Bot simples em Node.js que responde ao comando `!ip` com um embed bonito no Disc
    ```bash
    npm install
    ```
-2. Copie o arquivo de exemplo e preencha o token do bot:
-   ```bash
-   cp .env.example .env
-   ```
+2. Edite `src/config.json` com o token do bot e o IP do servidor.
 3. Inicie o bot:
    ```bash
    npm start

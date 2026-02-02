@@ -1,10 +1,5 @@
-import { Client, GatewayIntentBits, EmbedBuilder } from "discord.js";
-
-const token = process.env.DISCORD_TOKEN;
-
-if (!token) {
-  throw new Error("Defina a variável de ambiente DISCORD_TOKEN antes de iniciar o bot.");
-}
+const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
+const config = require("./config.json");
 
 const client = new Client({
   intents: [
@@ -14,41 +9,27 @@ const client = new Client({
   ]
 });
 
-async function fetchPublicIp() {
-  const response = await fetch("https://api.ipify.org?format=json");
-  if (!response.ok) {
-    throw new Error(`Falha ao buscar IP: ${response.status}`);
-  }
-  const data = await response.json();
-  return data.ip;
-}
-
 client.once("ready", () => {
-  console.log(`✅ Bot conectado como ${client.user.tag}`);
+  console.log(`✅ Bot online como ${client.user.tag}`);
 });
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
   if (message.content.trim() !== "!ip") return;
 
-  try {
-    const ip = await fetchPublicIp();
-    const embed = new EmbedBuilder()
-      .setColor(0x5865f2)
-      .setTitle("🌐 IP Público do Servidor")
-      .setDescription("Aqui está o IP público solicitado:")
-      .addFields({ name: "Endereço IP", value: `\`${ip}\``, inline: false })
-      .setThumbnail("https://cdn-icons-png.flaticon.com/512/126/126509.png")
-      .setFooter({ text: "Solicitado via comando !ip" })
-      .setTimestamp(new Date());
+  const embed = new EmbedBuilder()
+    .setColor(0x9b59b6)
+    .setTitle("🌐 IP Oficial do HyWar")
+    .setDescription(
+      "**Conecte-se agora!**\n\n" +
+        `🔹 **IP:** \`${config.serverIP}\`\n` +
+        "🔹 **Versão:** Hytale\n\n" +
+        "⚔️ Domine reinos. Faça história."
+    )
+    .setFooter({ text: "HyWar • Guerra entre Reinos" })
+    .setTimestamp();
 
-    await message.channel.send({ embeds: [embed] });
-  } catch (error) {
-    console.error("Erro ao responder !ip:", error);
-    await message.channel.send(
-      "Não consegui buscar o IP agora. Tente novamente em instantes."
-    );
-  }
+  await message.channel.send({ embeds: [embed] });
 });
 
-client.login(token);
+client.login(config.token);

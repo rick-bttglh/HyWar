@@ -1,0 +1,12 @@
+{
+  "name": "hywar-discord-bot",
+  "version": "1.0.0",
+  "description": "Bot do Discord que responde com um embed bonito ao comando !ip",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3"
+  }
+}
